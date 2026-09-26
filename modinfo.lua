@@ -5,7 +5,7 @@ local modid = 'which_mod_are_you_from'
 local LANGS = {
     ['zh'] = {
         name = 'Which Mod Are You From?（模组来源检视器）',
-        description = '模组来源检视器，显示游戏内物品/实体来自哪个模组',
+        description = '模组来源检视器。显示游戏内物品/实体来自哪个模组。',
         config = {
             { modid .. '_mode', '显示模式', '选择模组名称显示的位置', 'name', {
                 { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 類模組' },
