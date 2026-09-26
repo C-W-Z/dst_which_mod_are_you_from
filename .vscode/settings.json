@@ -1,0 +1,9 @@
+{
+  "Lua.workspace.library": [
+    "D:\\DSTMod\\lsp-dst\\scripts"
+  ],
+  "Lua.diagnostics.globals": [
+    "PostProcessor",
+    "Profile"
+  ]
+}

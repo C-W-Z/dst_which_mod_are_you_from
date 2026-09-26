@@ -1,0 +1,75 @@
+Copyright (c) 2026 C-W-Z. All Rights Reserved.
+
+====================================================================
+PROPRIETARY LICENSE AGREEMENT / 專有軟體授權協議
+====================================================================
+
+IMPORTANT: PLEASE READ THIS LICENSE CAREFULLY BEFORE DOWNLOADING, 
+INSTALLING, OR USING THIS MOD. BY USING THIS MOD, YOU AGREE TO BE 
+BOUND BY THE TERMS OF THIS LICENSE.
+重要提示：在下載、安裝或使用本模組之前，請仔細閱讀本授權條款。
+使用本模組即表示您同意受本條款之約束。
+
+--------------------------------------------------------------------
+1. ALL RIGHTS RESERVED / 保留所有權利
+--------------------------------------------------------------------
+[中文]
+未經作者事先書面許可，嚴禁以任何形式（包括但不限於原始碼、二進位檔案、
+壓縮檔）複製、修改、分發、搬運、轉載或二次發布本模組的全部或部分內容。
+這包含禁止將本模組上傳或發布至任何公開平台、網路空間或代碼儲存庫（無論
+是否與本模組的官方發布平台相同）以供「自用」、「備份」或「鏡像」之目的。
+
+[English]
+Reproduction, modification, distribution, or republication of this mod 
+in any form is strictly prohibited without prior written permission from 
+the author. This includes uploading or publishing the mod to any public 
+platform, file-sharing service, or code repository (regardless of whether 
+it is the same as the official distribution platform) for the purposes 
+of "personal use", "backup", or "mirroring".
+
+--------------------------------------------------------------------
+2. PERMITTED DEPENDENCY AND EXTENSION / 允許的依賴與擴展
+--------------------------------------------------------------------
+[中文]
+允許其他專案或模組將本模組作為「依賴項（Dependency）」進行引用。
+其他開發者可以編寫程式碼來呼叫本模組的 API、繼承其類別或透過掛載點
+（Hooks）進行互動與功能修改，前提是必須嚴格遵守以下條件：
+  a. 您的專案不得內建、打包或包含本模組的任何原始檔案。
+  b. 使用者必須自行從本模組的官方發布管道下載並安裝本模組。
+
+[English]
+Other projects are permitted to use this mod as a dependency. 
+Developers may write code that interacts with this mod's API, inherits 
+its classes, or uses its hooks, provided that the following conditions 
+are strictly met:
+  a. The dependent project does not bundle, include, or distribute any 
+     files from this mod.
+  b. End-users must download and install this mod directly from its 
+     official distribution channels.
+
+--------------------------------------------------------------------
+3. LOCAL PERSONAL MODIFICATIONS / 個人本地修改
+--------------------------------------------------------------------
+[中文]
+允許使用者在本地端自行修改程式碼僅供個人使用，但嚴禁將修改後的版本
+（或修改補丁）以任何形式公開發布或分享給他人。
+
+[English]
+Users may modify the code locally strictly for personal use, but 
+distributing the modified version or patches in any form is strictly 
+prohibited.
+
+--------------------------------------------------------------------
+4. DISCLAIMER OF WARRANTY / 免責聲明
+--------------------------------------------------------------------
+[中文]
+本模組按「現狀」（AS IS）提供，不附帶任何明示或暗示的擔保責任。在任何
+情況下，作者均不對因下載、安裝、使用或無法使用本模組而造成的任何直接、
+間接損害或數據遺失承擔任何責任。
+
+[English]
+THIS MOD IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES, 
+OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE MOD OR THE USE OR OTHER 
+DEALINGS IN THE MOD.
