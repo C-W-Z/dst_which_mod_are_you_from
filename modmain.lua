@@ -18,6 +18,9 @@ AddSimPostInit(function()
                 -- 取得模組的格式化名稱
                 local fancy_name = GetModFancyName(modname) or modname
 
+                -- 清除前後的空白與換行符號，以及中間的換行符號
+                fancy_name = string.gsub(string.match(fancy_name, "^%s*(.-)%s*$"), "[\r\n]", "") or fancy_name
+
                 -- 將該模組下的所有物品代碼記錄到快取表中
                 for prefab_name, _ in pairs(mod.Prefabs) do
                     prefab_to_modname[prefab_name] = fancy_name
@@ -47,7 +50,7 @@ AddClassPostConstruct("widgets/hoverer", function(self)
             if origin then
                 -- 若來源不為空，則附加到提示字串後方
                 if str then
-                    str = str .. "\nMOD: "  .. origin
+                    str = str .. "\nMOD: " .. origin
                 else
                     str = "MOD: " .. origin
                 end
