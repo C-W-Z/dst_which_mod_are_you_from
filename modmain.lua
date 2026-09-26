@@ -3,6 +3,7 @@ GLOBAL.setmetatable(env, { __index = function(t, k) return GLOBAL.rawget(GLOBAL,
 ---@type string
 local modid = 'which_mod_are_you_from' -- 定义唯一modid
 
+---@type string
 local display_mode = GetModConfigData(modid .. "_mode")
 
 local prefab_to_modname = {}
@@ -20,10 +21,8 @@ AddSimPostInit(function()
 
                 for prefab_name, _ in pairs(mod.Prefabs) do
                     if display_mode == "hover" then
-                        -- 僅在 hover 模式寫入記憶體快取表
                         prefab_to_modname[prefab_name] = fancy_name
                     elseif display_mode == "name" then
-                        -- name 模式直接修改字串，不佔用額外快取
                         local upper_name = string.upper(prefab_name)
                         local current_string = STRINGS.NAMES[upper_name]
 
@@ -40,12 +39,12 @@ AddSimPostInit(function()
     end
 end)
 
--- 若選擇浮動提示模式，攔截 hoverer UI
 if display_mode == "hover" then
+    ---@param self widget_hoverer
     AddClassPostConstruct("widgets/hoverer", function(self)
         local old_SetString = self.text.SetString
         self.text.SetString = function(text, str)
-            -- 獲取游標當下指著的實體 (UI 優先，其次為世界實體)
+            -- 取得鼠標當下指著的實體 (UI 優先，然後才是世界實體)
             local target = TheInput:GetHUDEntityUnderMouse()
             if target ~= nil then
                 target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item

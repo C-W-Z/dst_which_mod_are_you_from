@@ -19,7 +19,7 @@ local LANGS = {
         config = {
             { modid .. '_mode', 'Display Mode', 'Choose where the mod name is displayed', 'name', {
                 { 'Hover Tooltip', 'hover', 'Displays like "Show Me". Compatible with "Show Me" type mods.' },
-                { 'Item Name',     'name',  'Appends the mod name to the end of the item name. Theoretically compatible with all mods.' }
+                { 'Item Name',     'name',  'Appends mod name to item name. Compatible with all mods in theory.' }
             } },
         }
     },
@@ -33,8 +33,8 @@ version = '1.0.0'
 author = 'Icya'
 forumthread = ''
 api_version = 10
--- 早點加載確保 hover 模式時 MOD 名稱顯示在名字下方第一行
-priority = 1000                    -- 加载优先级，越低加载越晚，默认为0
+-- 晚點加載確保 hover 模式時 MOD 名稱顯示在物品名稱下第一行（雖然不明原理因為沒看其他 MOD 怎麼寫的）
+priority = -100000                  -- 加载优先级，越低加载越晚，默认为0
 
 dst_compatible = true              -- 联机版适配性
 dont_starve_compatible = false     -- 单机版适配性
