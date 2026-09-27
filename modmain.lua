@@ -61,7 +61,7 @@ AddSimPostInit(function()
     for _, modname in ipairs(ModManager:GetEnabledModNames()) do
         local mod = ModManager:GetMod(modname)
 
-        if not mod or not mod.Prefabs then
+        if mod and mod.Prefabs then
             local fancy_name = GetModFancyName(modname) or modname
 
             -- 清除前後的空白與換行符號，以及中間的換行符號
