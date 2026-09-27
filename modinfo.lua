@@ -1,6 +1,6 @@
 ---@diagnostic disable: lowercase-global, undefined-global
 
-local modid = 'which_mod_are_you_from'
+local modid = 'server_mod_source_viewer'
 
 local hover_or_disable_zh = {
     { '禁用', false },

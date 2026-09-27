@@ -3,7 +3,7 @@
 GLOBAL.setmetatable(env, { __index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end })
 
 ---@type string
-local modid          = 'which_mod_are_you_from' -- 定义唯一modid
+local modid          = 'server_mod_source_viewer' -- 定义唯一modid
 
 local display_mode   = GetModConfigData(modid .. "_mode")
 local hotkey_setting = GetModConfigData(modid .. "_hotkey")
