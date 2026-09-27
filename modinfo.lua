@@ -69,7 +69,7 @@ local LANGS = {
 local cur = (locale == 'zh' or locale == 'zhr' or locale == 'zht') and 'zh' or 'en'
 
 -- mod相关信息
-version = '1.2.2'
+version = '1.4.0'
 author = 'Icya'
 forumthread = ''
 api_version = 10
