@@ -22,6 +22,10 @@ local LANGS = {
                 { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 類模組' },
             } },
             { 'Dev Tools' },
+            { modid .. '_force_show', '强制显示资讯', '是否能在不可检视的实体（如玩家自己）上强制显示资讯', false, {
+                { '禁用', false, '' },
+                { '启用', true, '' },
+            } },
             { modid .. '_guid', 'Show GUID', '是否顯示GUID', false, hover_or_disable_zh },
             { modid .. '_prefab', 'Show Prefab', '是否顯示Prefab名稱', false, hover_or_disable_zh },
             { modid .. '_sg', 'Show StateGraph', '是否顯示StateGraph資訊', false, hover_or_disable_zh },
@@ -37,6 +41,10 @@ local LANGS = {
                 { 'Hover Tooltip', 'hover', 'Displays like "Show Me". Compatible with "Show Me" type mods.' },
             } },
             { 'Dev Tools' },
+            { modid .. '_force_show', 'Force Show Tooltip', 'Show info on uninspectable entities (like player yourself)', false, {
+                { 'Disabled', false, '' },
+                { 'Enabled', true, '' },
+            } },
             { modid .. '_guid',   'Show GUID',       'Show GUID',            false, hover_or_disable_en },
             { modid .. '_prefab', 'Show Prefab',     'Show Prefab Name',     false, hover_or_disable_en },
             { modid .. '_sg',     'Show StateGraph', 'Show StateGraph info', false, hover_or_disable_en },
