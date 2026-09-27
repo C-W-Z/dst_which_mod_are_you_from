@@ -31,13 +31,14 @@ local function GetDevInfoText(inst)
         text = text .. "\nPrefab: " .. tostring(inst.prefab or inst.entity:GetPrefabName())
     end
 
-    if show_sg == "hover" and inst.sg then
-        local sg_name = inst.sg.sg and tostring(inst.sg.sg.name)
-        local sg_state = inst.sg.currentstate and tostring(inst.sg.currentstate.name) or "<None>"
-        if sg_name and string.len(sg_name) > 0 then
-            text = text .. "\nStateGraph: " .. sg_name .. " | " .. sg_state
-        end
-    end
+    -- SG 要從 Server 用網路變數向 Client 傳值，UI 才能知道，Client Only Mod 無法獲取
+    -- if show_sg == "hover" and inst.sg then
+    --     local sg_name = inst.sg.sg and tostring(inst.sg.sg.name)
+    --     local sg_state = inst.sg.currentstate and tostring(inst.sg.currentstate.name) or "<None>"
+    --     if sg_name and string.len(sg_name) > 0 then
+    --         text = text .. "\nStateGraph: " .. sg_name .. " | " .. sg_state
+    --     end
+    -- end
 
     if show_as == "hover" and inst.AnimState then
         local debug = inst:GetDebugString()
