@@ -60,7 +60,7 @@ local LANGS = {
             { modid .. '_guid',   'Show GUID',       'Show GUID',            false, hover_or_disable_en },
             { modid .. '_prefab', 'Show Prefab',     'Show Prefab Name',     false, hover_or_disable_en },
             { modid .. '_as',     'Show AnimState',  'Show AnimState info',  false, hover_or_disable_en },
-            { modid .. '_sg',     'Show StateGraph', 'Show StateGraph info', false, { 'Unsupported', false, '' }, },
+            { modid .. '_sg',     'Show StateGraph', 'Show StateGraph info', false, { { 'Unsupported', false, '' }, } },
         }
     },
 }
