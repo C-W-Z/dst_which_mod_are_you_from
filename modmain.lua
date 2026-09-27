@@ -66,7 +66,7 @@ AddSimPostInit(function()
             fancy_name = string.gsub(string.match(fancy_name, "^%s*(.-)%s*$"), "[\r\n]", "") or fancy_name
 
             for prefab_name, _ in pairs(mod.Prefabs) do
-                -- 無論哪種模式，都將快取存起來，為了 force_show 做準備
+                -- 無論哪種模式，都將快取存起來
                 prefab_to_modname[prefab_name] = fancy_name
 
                 if display_mode == "name" then
@@ -110,20 +110,50 @@ AddClassPostConstruct("widgets/hoverer", function(self)
 
             if show_custom_info then
                 local clean_str = str or ""
+                local found_mods = {}
 
-                if target.prefab ~= nil then
-                    local origin = prefab_to_modname[target.prefab]
-                    if origin then
-                        if display_mode == "hover" then
-                            clean_str = clean_str ~= "" and (clean_str .. "\nMOD: " .. origin) or ("MOD: " .. origin)
-                        elseif display_mode == "name" then
-                            -- 雙重保險：檢查是否已經透過 STRINGS.NAMES 加上了
-                            -- 如果沒有（例如遇到調味料理等動態名稱），就在這裡動態補上
-                            if not string.find(clean_str, origin, 1, true) then
-                                clean_str = clean_str ~= "" and (clean_str .. "\nMOD: " .. origin) or ("MOD: " .. origin)
-                            end
+                -- 字串清理與提取
+                -- 抓出原本夾在中間的 MOD 標籤 (解決 Name 模式被「吃」等動作隔開的問題)
+                clean_str = string.gsub(clean_str, "\nMOD: ([^\n]+)", function(m_name)
+                    -- 支援多個模組名稱以 | 分隔的情況
+                    for single_mod in string.gmatch(m_name, "[^|]+") do
+                        local trimmed = string.match(single_mod, "^%s*(.-)%s*$")
+                        if trimmed and trimmed ~= "" then
+                            found_mods[trimmed] = true
                         end
                     end
+                    return ""     -- 將其從字串中移除，等待後續統一加在最下方
+                end)
+
+                if target.prefab ~= nil then
+                    -- 處理動態調味料理 (base_spice_flavor)
+                    -- 利用正則表達式拆解，找出基礎料理的 Prefab
+                    local base_prefab = string.match(target.prefab, "^(.+)_spice_.+$")
+                    if base_prefab then
+                        local base_origin = prefab_to_modname[base_prefab]
+                        if base_origin then
+                            found_mods[base_origin] = true
+                        end
+                    end
+
+                    -- 獲取當前實體的模組來源
+                    local origin = prefab_to_modname[target.prefab]
+                    if origin then
+                        found_mods[origin] = true
+                    end
+                end
+
+                -- 統一字串重組
+                local mod_list = {}
+                for k, _ in pairs(found_mods) do
+                    table.insert(mod_list, k)
+                end
+
+                -- 將收集到的所有模組去重複並排序，統一接在字串最下方
+                if #mod_list > 0 then
+                    table.sort(mod_list)
+                    local joined_mods = table.concat(mod_list, " | ")
+                    clean_str = clean_str ~= "" and (clean_str .. "\nMOD: " .. joined_mods) or ("MOD: " .. joined_mods)
                 end
 
                 local dev_info = GetDevInfoText(target)

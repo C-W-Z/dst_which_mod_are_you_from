@@ -4,7 +4,7 @@
 [img]https://images.steamusercontent.com/ugc/11351905514071543260/E232C170765F189D6E9915AEF666C3E3E3F5D5E1/[/img]
 
 [h2]Description[/h2]
-This is a server-side mod.
+This is a server-side mod. [url=https://steamcommunity.com/sharedfiles/filedetails/?id=3808275913]Client-side Version Here[/url]. The client version will be automatically disabled when the server version is detected.
 I made this mod because having too many mods often makes it impossible to tell which mod an item belongs to, leaving you completely clueless about which Wiki to check.
 [spoiler]This feature is built into BaseMod in Slay the Spire. It is painful not having it in DST, and I really don't get why nobody made this before.[/spoiler]
 Mod Source Viewer: Displays which mod an in-game item or entity comes from.
@@ -14,7 +14,8 @@ Fully compatible with "Show Me", "Insight", and other info-display mods.
 [list]
 [*] Item Name Mode: Appends the mod name directly to the end of the item name. The mod name is also visible in the T-key menu.
 [*] Hover Tooltip Mode: Displays in the same style as "Show Me", with an option to only show info while holding Alt / Ctrl / Shift.
-[*] Developer Tools: Option to display Prefab, StateGraph, AnimState, and GUID info.
+[*] Special: Seasoned dishes made from mod seasonings and mod dishes will display both mods simultaneously.
+[*] Developer Tools: Option to display Prefab, AnimState, and GUID info.
 [/list]
 
 [h2]Without explicit permission from the author, reproduction, modification, distribution, re-uploading, or redistribution of this mod (in whole or in part) in any form or under any pretext (including but not limited to "personal use" or "backup") is strictly prohibited.[/h2]
