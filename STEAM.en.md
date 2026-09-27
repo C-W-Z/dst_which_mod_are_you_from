@@ -14,7 +14,7 @@ Fully compatible with "Show Me", "Insight", and other info-display mods.
 [list]
 [*] Item Name Mode: Appends the mod name directly to the end of the item name. The mod name is also visible in the T-key menu.
 [*] Hover Tooltip Mode: Displays in the same style as "Show Me", with an option to only show info while holding Alt / Ctrl / Shift.
-[*] Developer Tools: Option to display Prefab, StateGraph, AnimState, and GUID info.
+[*] Developer Tools: Option to display Prefab, AnimState, and GUID info.
 [/list]
 
 [h2]Without explicit permission from the author, reproduction, modification, distribution, re-uploading, or redistribution of this mod (in whole or in part) in any form or under any pretext (including but not limited to "personal use" or "backup") is strictly prohibited.[/h2]

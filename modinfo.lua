@@ -14,7 +14,7 @@ local hover_or_disable_en = {
 
 local LANGS = {
     ['zh'] = {
-        name = 'Which Mod Are You From?（模组来源检视器）',
+        name = '[Client] Which Mod Are You From?（模组来源检视器）',
         description = '模组来源检视器。显示游戏内物品/实体来自哪个模组。',
         config = {
             { modid .. '_mode', '显示模式', '选择模组名称显示的位置', 'name', {
@@ -34,12 +34,12 @@ local LANGS = {
             } },
             { modid .. '_guid', 'Show GUID', '是否显示GUID', false, hover_or_disable_zh },
             { modid .. '_prefab', 'Show Prefab', '是否显示Prefab名称', false, hover_or_disable_zh },
-            { modid .. '_sg', 'Show StateGraph', '是否显示StateGraph资讯', false, hover_or_disable_zh },
+            -- { modid .. '_sg', 'Show StateGraph', '是否显示StateGraph资讯', false, hover_or_disable_zh },
             { modid .. '_as', 'Show AnimState', '是否显示AnimState资讯', false, hover_or_disable_zh },
         }
     },
     ['en'] = {
-        name = 'Which Mod Are You From? (Mod Source Viewer)',
+        name = '[Client] Which Mod Are You From? (Mod Source Viewer)',
         description = 'Mod Source Viewer. Displays which mod an in-game item/entity comes from.',
         config = {
             { modid .. '_mode', 'Display Mode', 'Choose where the mod name is displayed', 'name', {
@@ -59,7 +59,7 @@ local LANGS = {
             } },
             { modid .. '_guid',   'Show GUID',       'Show GUID',            false, hover_or_disable_en },
             { modid .. '_prefab', 'Show Prefab',     'Show Prefab Name',     false, hover_or_disable_en },
-            { modid .. '_sg',     'Show StateGraph', 'Show StateGraph info', false, hover_or_disable_en },
+            -- { modid .. '_sg',     'Show StateGraph', 'Show StateGraph info', false, hover_or_disable_en },
             { modid .. '_as',     'Show AnimState',  'Show AnimState info',  false, hover_or_disable_en },
         }
     },
@@ -69,7 +69,7 @@ local LANGS = {
 local cur = (locale == 'zh' or locale == 'zhr' or locale == 'zht') and 'zh' or 'en'
 
 -- mod相关信息
-version = '1.2.1'
+version = '1.2.2'
 author = 'Icya'
 forumthread = ''
 api_version = 10
