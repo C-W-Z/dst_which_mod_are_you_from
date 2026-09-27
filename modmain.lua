@@ -114,12 +114,14 @@ AddClassPostConstruct("widgets/hoverer", function(self)
                 if target.prefab ~= nil then
                     local origin = prefab_to_modname[target.prefab]
                     if origin then
-                        -- hover 模式：永遠手動換行加上去
                         if display_mode == "hover" then
                             clean_str = clean_str ~= "" and (clean_str .. "\nMOD: " .. origin) or ("MOD: " .. origin)
-                            -- name 模式：只有在原生字串為空 (無提示實體) 且開啟 force_show 時，才手動補上
-                        elseif display_mode == "name" and force_show and str == "" then
-                            clean_str = "MOD: " .. origin
+                        elseif display_mode == "name" then
+                            -- 雙重保險：檢查是否已經透過 STRINGS.NAMES 加上了
+                            -- 如果沒有（例如遇到調味料理等動態名稱），就在這裡動態補上
+                            if not string.find(clean_str, origin, 1, true) then
+                                clean_str = clean_str ~= "" and (clean_str .. "\nMOD: " .. origin) or ("MOD: " .. origin)
+                            end
                         end
                     end
                 end
