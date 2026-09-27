@@ -2,15 +2,30 @@
 
 local modid = 'which_mod_are_you_from'
 
+local hover_or_disable_zh = {
+    { '禁用', false },
+    { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 類模組' },
+}
+
+local hover_or_disable_en = {
+    { 'Disabled',      false },
+    { 'Hover Tooltip', 'hover', 'Displays like "Show Me". Compatible with "Show Me" type mods.' },
+}
+
 local LANGS = {
     ['zh'] = {
         name = 'Which Mod Are You From?（模组来源检视器）',
         description = '模组来源检视器。显示游戏内物品/实体来自哪个模组。',
         config = {
             { modid .. '_mode', '显示模式', '选择模组名称显示的位置', 'name', {
+                { '物品名称', 'name', '直接将模组名称加在物品名称的最后，理論上兼容所有模組' },
                 { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 類模組' },
-                { '物品名称', 'name', '直接将模组名称加在物品名称的最后，理論上兼容所有模組' }
             } },
+            { 'Dev Tools' },
+            { modid .. '_guid', 'Show GUID', '是否顯示GUID', false, hover_or_disable_zh },
+            { modid .. '_prefab', 'Show Prefab', '是否顯示Prefab名稱', false, hover_or_disable_zh },
+            { modid .. '_sg', 'Show StateGraph', '是否顯示StateGraph資訊', false, hover_or_disable_zh },
+            { modid .. '_as', 'Show AnimState', '是否顯示AnimState資訊', false, hover_or_disable_zh },
         }
     },
     ['en'] = {
@@ -18,9 +33,14 @@ local LANGS = {
         description = 'Mod Source Viewer. Displays which mod an in-game item/entity comes from.',
         config = {
             { modid .. '_mode', 'Display Mode', 'Choose where the mod name is displayed', 'name', {
+                { 'Item Name',     'name',  'Appends mod name to item name. Compatible with all mods in theory.' },
                 { 'Hover Tooltip', 'hover', 'Displays like "Show Me". Compatible with "Show Me" type mods.' },
-                { 'Item Name',     'name',  'Appends mod name to item name. Compatible with all mods in theory.' }
             } },
+            { 'Dev Tools' },
+            { modid .. '_guid',   'Show GUID',       'Show GUID',            false, hover_or_disable_en },
+            { modid .. '_prefab', 'Show Prefab',     'Show Prefab Name',     false, hover_or_disable_en },
+            { modid .. '_sg',     'Show StateGraph', 'Show StateGraph info', false, hover_or_disable_en },
+            { modid .. '_as',     'Show AnimState',  'Show AnimState info',  false, hover_or_disable_en },
         }
     },
 }
@@ -29,12 +49,12 @@ local LANGS = {
 local cur = (locale == 'zh' or locale == 'zhr' or locale == 'zht') and 'zh' or 'en'
 
 -- mod相关信息
-version = '1.0.1'
+version = '1.1.0'
 author = 'Icya'
 forumthread = ''
 api_version = 10
 -- 晚點加載確保 hover 模式時 MOD 名稱顯示在物品名稱下第一行（雖然不明原理因為沒看其他 MOD 怎麼寫的）
-priority = -100000                  -- 加载优先级，越低加载越晚，默认为0
+priority = -100000                 -- 加载优先级，越低加载越晚，默认为0
 
 dst_compatible = true              -- 联机版适配性
 dont_starve_compatible = false     -- 单机版适配性
