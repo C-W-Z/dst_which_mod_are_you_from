@@ -92,14 +92,10 @@ local need_hover_hook = (display_mode == "hover") or (show_prefab == "hover") or
 if need_hover_hook then
     ---@param self widget_hoverer
     AddClassPostConstruct("widgets/hoverer", function(self)
-        local old_OnUpdate = self.OnUpdate
-        self.OnUpdate = function(s)
-            -- 執行原本的 OnUpdate，決定原始字串和顏色，並更新 self.str
-            if old_OnUpdate then
-                old_OnUpdate(s)
-            end
-
-            -- 獲取滑鼠下的目標實體
+        -- 攔截 SetString (回歸舊版的「最後關卡」做法)
+        -- 負責把所有送到 UI 介面的文字串接上我們的資訊，完美相容 Show Me
+        local old_SetString = self.text.SetString
+        self.text.SetString = function(text, str)
             local target = TheInput:GetHUDEntityUnderMouse()
             if target ~= nil then
                 target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item
@@ -108,14 +104,6 @@ if need_hover_hook then
             end
 
             if target then
-                local current_str = s.str or ""
-                local original_str = current_str
-
-                if original_str == "" and not force_show then
-                    return
-                end
-
-                -- 檢查是否按下了指定按鍵
                 local show_custom_info = true
                 if hotkey_setting == "KEY_ALT" then
                     show_custom_info = TheInput:IsKeyDown(KEY_ALT)
@@ -126,43 +114,59 @@ if need_hover_hook then
                 end
 
                 if show_custom_info then
+                    local clean_str = str or ""
+
                     if display_mode == "hover" and target.prefab ~= nil then
                         local origin = prefab_to_modname[target.prefab]
                         if origin then
-                            if current_str ~= "" then
-                                current_str = current_str .. "\nMOD: " .. origin
-                            else
-                                current_str = "MOD: " .. origin
-                            end
+                            clean_str = clean_str ~= "" and (clean_str .. "\nMOD: " .. origin) or ("MOD: " .. origin)
                         end
                     end
 
                     local dev_info = GetDevInfoText(target)
                     if dev_info ~= "" then
-                        if current_str ~= "" then
-                            current_str = current_str .. dev_info
-                        else
-                            current_str = dev_info:sub(2) -- 去掉第一個 \n
-                        end
+                        clean_str = clean_str ~= "" and (clean_str .. dev_info) or dev_info:sub(2)
                     end
+
+                    str = clean_str
+                end
+            end
+
+            return old_SetString(text, str)
+        end
+
+        -- 攔截 OnUpdate (保留新版的強制顯示邏輯)
+        -- 專門用來處理沒有互動選項、原本會被遊戲強制 Hide() 的實體
+        local old_OnUpdate = self.OnUpdate
+        self.OnUpdate = function(s)
+            if old_OnUpdate then
+                old_OnUpdate(s)
+            end
+
+            if force_show then
+                local target = TheInput:GetHUDEntityUnderMouse()
+                if target ~= nil then
+                    target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item
+                else
+                    target = TheInput:GetWorldEntityUnderMouse()
                 end
 
-                -- 如果字串被我們修改了，手動覆寫顯示
-                if current_str ~= original_str then
-                    s.str = current_str
-                    s.text:SetString(current_str)
+                if target then
+                    -- 如果原生邏輯字串為空，且提示框處於隱藏狀態
+                    if (s.str == nil or s.str == "") and not s.text.shown then
+                        -- 強制丟一個空字串給 SetString，這會觸發我們上面的攔截器
+                        s.text:SetString("")
 
-                    -- 因為原本 str == nil 時 s.text 會被隱藏，我們必須強制顯示它
-                    s.text:Show()
+                        -- 強制顯示 UI 元件
+                        s.text:Show()
+                        if not s.shown and not s.forcehide then
+                            s:Show()
+                        end
 
-                    -- 讓整個 Hoverer 也顯示出來 (防止因為其他原因被隱藏)
-                    if not s.shown and not s.forcehide then
-                        s:Show()
+                        -- 修正位置防止超出螢幕
+                        local pos = TheInput:GetScreenPosition()
+                        s:UpdatePosition(pos.x, pos.y)
                     end
-
-                    -- 強制更新一次位置，防止字串變長超出邊界
-                    local pos = TheInput:GetScreenPosition()
-                    s:UpdatePosition(pos.x, pos.y)
                 end
             end
         end
