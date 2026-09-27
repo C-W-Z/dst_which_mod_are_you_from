@@ -63,14 +63,13 @@ AddSimPostInit(function()
 
         if mod and mod.Prefabs then
             local fancy_name = GetModFancyName(modname) or modname
-
-            -- 清除前後的空白與換行符號，以及中間的換行符號
             fancy_name = string.gsub(string.match(fancy_name, "^%s*(.-)%s*$"), "[\r\n]", "") or fancy_name
 
             for prefab_name, _ in pairs(mod.Prefabs) do
-                if display_mode == "hover" then
-                    prefab_to_modname[prefab_name] = fancy_name
-                elseif display_mode == "name" then
+                -- 無論哪種模式，都將快取存起來，為了 force_show 做準備
+                prefab_to_modname[prefab_name] = fancy_name
+
+                if display_mode == "name" then
                     local upper_name = string.upper(prefab_name)
                     local current_string = STRINGS.NAMES[upper_name]
 
@@ -86,16 +85,66 @@ AddSimPostInit(function()
     end
 end)
 
-local need_hover_hook = (display_mode == "hover") or (show_prefab == "hover") or (show_sg == "hover") or
-    (show_as == "hover")
+---@param self widget_hoverer
+AddClassPostConstruct("widgets/hoverer", function(self)
+    -- 攔截 SetString (回歸舊版的「最後關卡」做法)
+    -- 負責把所有送到 UI 介面的文字串接上我們的資訊，完美相容 Show Me
+    local old_SetString = self.text.SetString
+    self.text.SetString = function(text, str)
+        local target = TheInput:GetHUDEntityUnderMouse()
+        if target ~= nil then
+            target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item
+        else
+            target = TheInput:GetWorldEntityUnderMouse()
+        end
 
-if need_hover_hook then
-    ---@param self widget_hoverer
-    AddClassPostConstruct("widgets/hoverer", function(self)
-        -- 攔截 SetString (回歸舊版的「最後關卡」做法)
-        -- 負責把所有送到 UI 介面的文字串接上我們的資訊，完美相容 Show Me
-        local old_SetString = self.text.SetString
-        self.text.SetString = function(text, str)
+        if target then
+            local show_custom_info = true
+            if hotkey_setting == "KEY_ALT" then
+                show_custom_info = TheInput:IsKeyDown(KEY_ALT)
+            elseif hotkey_setting == "KEY_CTRL" then
+                show_custom_info = TheInput:IsKeyDown(KEY_CTRL)
+            elseif hotkey_setting == "KEY_SHIFT" then
+                show_custom_info = TheInput:IsKeyDown(KEY_SHIFT)
+            end
+
+            if show_custom_info then
+                local clean_str = str or ""
+
+                if target.prefab ~= nil then
+                    local origin = prefab_to_modname[target.prefab]
+                    if origin then
+                        -- hover 模式：永遠手動換行加上去
+                        if display_mode == "hover" then
+                            clean_str = clean_str ~= "" and (clean_str .. "\nMOD: " .. origin) or ("MOD: " .. origin)
+                            -- name 模式：只有在原生字串為空 (無提示實體) 且開啟 force_show 時，才手動補上
+                        elseif display_mode == "name" and force_show and str == "" then
+                            clean_str = "MOD: " .. origin
+                        end
+                    end
+                end
+
+                local dev_info = GetDevInfoText(target)
+                if dev_info ~= "" then
+                    clean_str = clean_str ~= "" and (clean_str .. dev_info) or dev_info:sub(2)
+                end
+
+                str = clean_str
+            end
+        end
+
+        return old_SetString(text, str)
+    end
+
+    -- 攔截 OnUpdate (保留新版的強制顯示邏輯)
+    -- 專門用來處理沒有互動選項、原本會被遊戲強制 Hide() 的實體
+    local old_OnUpdate = self.OnUpdate
+    self.OnUpdate = function(s)
+        if old_OnUpdate then
+            old_OnUpdate(s)
+        end
+
+        if force_show then
             local target = TheInput:GetHUDEntityUnderMouse()
             if target ~= nil then
                 target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item
@@ -104,71 +153,22 @@ if need_hover_hook then
             end
 
             if target then
-                local show_custom_info = true
-                if hotkey_setting == "KEY_ALT" then
-                    show_custom_info = TheInput:IsKeyDown(KEY_ALT)
-                elseif hotkey_setting == "KEY_CTRL" then
-                    show_custom_info = TheInput:IsKeyDown(KEY_CTRL)
-                elseif hotkey_setting == "KEY_SHIFT" then
-                    show_custom_info = TheInput:IsKeyDown(KEY_SHIFT)
-                end
+                -- 如果原生邏輯字串為空，且提示框處於隱藏狀態
+                if (s.str == nil or s.str == "") and not s.text.shown then
+                    -- 強制丟一個空字串給 SetString，這會觸發我們上面的攔截器
+                    s.text:SetString("")
 
-                if show_custom_info then
-                    local clean_str = str or ""
-
-                    if display_mode == "hover" and target.prefab ~= nil then
-                        local origin = prefab_to_modname[target.prefab]
-                        if origin then
-                            clean_str = clean_str ~= "" and (clean_str .. "\nMOD: " .. origin) or ("MOD: " .. origin)
-                        end
+                    -- 強制顯示 UI 元件
+                    s.text:Show()
+                    if not s.shown and not s.forcehide then
+                        s:Show()
                     end
 
-                    local dev_info = GetDevInfoText(target)
-                    if dev_info ~= "" then
-                        clean_str = clean_str ~= "" and (clean_str .. dev_info) or dev_info:sub(2)
-                    end
-
-                    str = clean_str
-                end
-            end
-
-            return old_SetString(text, str)
-        end
-
-        -- 攔截 OnUpdate (保留新版的強制顯示邏輯)
-        -- 專門用來處理沒有互動選項、原本會被遊戲強制 Hide() 的實體
-        local old_OnUpdate = self.OnUpdate
-        self.OnUpdate = function(s)
-            if old_OnUpdate then
-                old_OnUpdate(s)
-            end
-
-            if force_show then
-                local target = TheInput:GetHUDEntityUnderMouse()
-                if target ~= nil then
-                    target = target.widget ~= nil and target.widget.parent ~= nil and target.widget.parent.item
-                else
-                    target = TheInput:GetWorldEntityUnderMouse()
-                end
-
-                if target then
-                    -- 如果原生邏輯字串為空，且提示框處於隱藏狀態
-                    if (s.str == nil or s.str == "") and not s.text.shown then
-                        -- 強制丟一個空字串給 SetString，這會觸發我們上面的攔截器
-                        s.text:SetString("")
-
-                        -- 強制顯示 UI 元件
-                        s.text:Show()
-                        if not s.shown and not s.forcehide then
-                            s:Show()
-                        end
-
-                        -- 修正位置防止超出螢幕
-                        local pos = TheInput:GetScreenPosition()
-                        s:UpdatePosition(pos.x, pos.y)
-                    end
+                    -- 修正位置防止超出螢幕
+                    local pos = TheInput:GetScreenPosition()
+                    s:UpdatePosition(pos.x, pos.y)
                 end
             end
         end
-    end)
-end
+    end
+end)
