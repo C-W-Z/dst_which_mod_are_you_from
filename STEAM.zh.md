@@ -4,7 +4,7 @@
 [img]https://images.steamusercontent.com/ugc/13927326566048580013/FA38937FBAC6CA683515D765E73EFE22764179AF/[/img]
 
 [h2]模組介紹[/h2]
-這是客戶端MOD。
+這是伺服器端MOD。
 常常因為裝太多MOD導致不知道每個物品是哪個模組的東西，連要去哪個模組的Wiki查都不知道，因此做了這個MOD。
 [spoiler]在尖塔這是BaseMod就有的功能，饑荒沒有這功能實在很難受，完全不明白為什麼沒人做[/spoiler]
 模組來源檢視器，顯示遊戲內物品/實體來自哪個模組。

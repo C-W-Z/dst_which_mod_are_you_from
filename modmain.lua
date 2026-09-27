@@ -32,9 +32,8 @@ local function GetDevInfoText(inst)
     end
 
     if show_sg == "hover" and inst.sg then
-        local debug = tostring(inst.sg)
-        local sg_name = string.match(debug, 'sg="(%S+)",')
-        local sg_state = string.match(debug, 'state="(%S+)",')
+        local sg_name = inst.sg.sg and tostring(inst.sg.sg.name)
+        local sg_state = inst.sg.currentstate and tostring(inst.sg.currentstate.name) or "<None>"
         if sg_name and string.len(sg_name) > 0 then
             text = text .. "\nStateGraph: " .. sg_name .. " | " .. sg_state
         end

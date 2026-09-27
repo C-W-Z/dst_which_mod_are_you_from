@@ -14,7 +14,7 @@ local hover_or_disable_en = {
 
 local LANGS = {
     ['zh'] = {
-        name = 'Which Mod Are You From?（模组来源检视器）',
+        name = '[Server] Which Mod Are You From?（模组来源检视器）',
         description = '模组来源检视器。显示游戏内物品/实体来自哪个模组。',
         config = {
             { modid .. '_mode', '显示模式', '选择模组名称显示的位置', 'name', {
@@ -39,7 +39,7 @@ local LANGS = {
         }
     },
     ['en'] = {
-        name = 'Which Mod Are You From? (Mod Source Viewer)',
+        name = '[Server] Which Mod Are You From? (Mod Source Viewer)',
         description = 'Mod Source Viewer. Displays which mod an in-game item/entity comes from.',
         config = {
             { modid .. '_mode', 'Display Mode', 'Choose where the mod name is displayed', 'name', {
@@ -48,9 +48,9 @@ local LANGS = {
             } },
             { modid .. '_hotkey', 'Hotkey to Show', 'Only support Hover mode. Hold a key to show info', false, {
                 { 'Always Show', false, },
-                { 'Alt',    'KEY_ALT',   'Hold Alt to show' },
-                { 'Ctrl',   'KEY_CTRL',  'Hold Ctrl to show' },
-                { 'Shift',  'KEY_SHIFT', 'Hold Shift to show' },
+                { 'Alt',         'KEY_ALT',   'Hold Alt to show' },
+                { 'Ctrl',        'KEY_CTRL',  'Hold Ctrl to show' },
+                { 'Shift',       'KEY_SHIFT', 'Hold Shift to show' },
             } },
             { 'Dev Tools' },
             { modid .. '_force_show', 'Force Show Tooltip', 'Show info on uninspectable entities (like player yourself)', false, {
@@ -69,7 +69,7 @@ local LANGS = {
 local cur = (locale == 'zh' or locale == 'zhr' or locale == 'zht') and 'zh' or 'en'
 
 -- mod相关信息
-version = '1.2.1'
+version = '1.2.2'
 author = 'Icya'
 forumthread = ''
 api_version = 10
@@ -79,9 +79,9 @@ priority = -100000                 -- 加载优先级，越低加载越晚，默
 dst_compatible = true              -- 联机版适配性
 dont_starve_compatible = false     -- 单机版适配性
 reign_of_giants_compatible = false -- 单机版：巨人国适配性
--- all_clients_require_mod = true  -- 服务端/所有端模组
+all_clients_require_mod = true     -- 服务端/所有端模组
 -- server_only_mod = true          -- 仅服务端模组
-client_only_mod = true             -- 仅客户端模组
+-- client_only_mod = true          -- 仅客户端模组
 server_filter_tags = { 'utility' } -- 创意工坊模组分类标签
 icon_atlas = 'modicon.xml'         -- 图集
 icon = 'modicon.tex'               -- 图标

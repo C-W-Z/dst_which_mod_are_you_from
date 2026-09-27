@@ -4,7 +4,7 @@
 [img]https://images.steamusercontent.com/ugc/11351905514071543260/E232C170765F189D6E9915AEF666C3E3E3F5D5E1/[/img]
 
 [h2]Description[/h2]
-This is a client-side mod.
+This is a server-side mod.
 I made this mod because having too many mods often makes it impossible to tell which mod an item belongs to, leaving you completely clueless about which Wiki to check.
 [spoiler]This feature is built into BaseMod in Slay the Spire. It is painful not having it in DST, and I really don't get why nobody made this before.[/spoiler]
 Mod Source Viewer: Displays which mod an in-game item or entity comes from.
