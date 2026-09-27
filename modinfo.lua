@@ -34,8 +34,8 @@ local LANGS = {
             } },
             { modid .. '_guid', 'Show GUID', '是否显示GUID', false, hover_or_disable_zh },
             { modid .. '_prefab', 'Show Prefab', '是否显示Prefab名称', false, hover_or_disable_zh },
-            -- { modid .. '_sg', 'Show StateGraph', '是否显示StateGraph资讯', false, hover_or_disable_zh },
             { modid .. '_as', 'Show AnimState', '是否显示AnimState资讯', false, hover_or_disable_zh },
+            { modid .. '_sg', 'Show StateGraph', '是否显示StateGraph资讯', false, { { '不支援', false, '' }, } },
         }
     },
     ['en'] = {
@@ -48,9 +48,9 @@ local LANGS = {
             } },
             { modid .. '_hotkey', 'Hotkey to Show', 'Only support Hover mode. Hold a key to show info', false, {
                 { 'Always Show', false, },
-                { 'Alt',    'KEY_ALT',   'Hold Alt to show' },
-                { 'Ctrl',   'KEY_CTRL',  'Hold Ctrl to show' },
-                { 'Shift',  'KEY_SHIFT', 'Hold Shift to show' },
+                { 'Alt',         'KEY_ALT',   'Hold Alt to show' },
+                { 'Ctrl',        'KEY_CTRL',  'Hold Ctrl to show' },
+                { 'Shift',       'KEY_SHIFT', 'Hold Shift to show' },
             } },
             { 'Dev Tools' },
             { modid .. '_force_show', 'Force Show Tooltip', 'Show info on uninspectable entities (like player yourself)', false, {
@@ -59,8 +59,8 @@ local LANGS = {
             } },
             { modid .. '_guid',   'Show GUID',       'Show GUID',            false, hover_or_disable_en },
             { modid .. '_prefab', 'Show Prefab',     'Show Prefab Name',     false, hover_or_disable_en },
-            -- { modid .. '_sg',     'Show StateGraph', 'Show StateGraph info', false, hover_or_disable_en },
             { modid .. '_as',     'Show AnimState',  'Show AnimState info',  false, hover_or_disable_en },
+            { modid .. '_sg',     'Show StateGraph', 'Show StateGraph info', false, { 'Unsupported', false, '' }, },
         }
     },
 }
