@@ -16,10 +16,16 @@ local show_as        = GetModConfigData(modid .. "_as")
 local function IsServerVersionActive()
     if not ModManager or not KnownModIndex then return false end
 
+    local target_prefix = "[Server] Which Mod Are You From?"
+    local prefix_len = #target_prefix
+
     for _, modname in ipairs(ModManager:GetEnabledModNames()) do
         local modinfo = KnownModIndex:GetModInfo(modname)
-        if modinfo and modinfo.name == "[Server] Which Mod Are You From?" then
-            return true
+        if modinfo and type(modinfo.name) == "string" then
+            -- 擷取模組名稱的開頭字串，與目標前綴進行比對
+            if string.sub(modinfo.name, 1, prefix_len) == target_prefix then
+                return true
+            end
         end
     end
     return false
