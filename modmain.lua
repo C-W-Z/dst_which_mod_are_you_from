@@ -1,14 +1,17 @@
+---@diagnostic disable: undefined-global
+
 GLOBAL.setmetatable(env, { __index = function(t, k) return GLOBAL.rawget(GLOBAL, k) end })
 
 ---@type string
-local modid        = 'which_mod_are_you_from' -- 定义唯一modid
+local modid          = 'which_mod_are_you_from' -- 定义唯一modid
 
-local display_mode = GetModConfigData(modid .. "_mode")
-local force_show   = GetModConfigData(modid .. "_force_show")
-local show_guid    = GetModConfigData(modid .. "_guid")
-local show_prefab  = GetModConfigData(modid .. "_prefab")
-local show_sg      = GetModConfigData(modid .. "_sg")
-local show_as      = GetModConfigData(modid .. "_as")
+local display_mode   = GetModConfigData(modid .. "_mode")
+local hotkey_setting = GetModConfigData(modid .. "_hotkey")
+local force_show     = GetModConfigData(modid .. "_force_show")
+local show_guid      = GetModConfigData(modid .. "_guid")
+local show_prefab    = GetModConfigData(modid .. "_prefab")
+local show_sg        = GetModConfigData(modid .. "_sg")
+local show_as        = GetModConfigData(modid .. "_as")
 
 ---@param inst ent
 ---@return string
@@ -112,25 +115,35 @@ if need_hover_hook then
                     return
                 end
 
-                -- 附加 MOD 來源
-                if display_mode == "hover" and target.prefab ~= nil then
-                    local origin = prefab_to_modname[target.prefab]
-                    if origin then
-                        if current_str ~= "" then
-                            current_str = current_str .. "\nMOD: " .. origin
-                        else
-                            current_str = "MOD: " .. origin
-                        end
-                    end
+                -- 檢查是否按下了指定按鍵
+                local show_custom_info = true
+                if hotkey_setting == "KEY_ALT" then
+                    show_custom_info = TheInput:IsKeyDown(KEY_ALT)
+                elseif hotkey_setting == "KEY_CTRL" then
+                    show_custom_info = TheInput:IsKeyDown(KEY_CTRL)
+                elseif hotkey_setting == "KEY_SHIFT" then
+                    show_custom_info = TheInput:IsKeyDown(KEY_SHIFT)
                 end
 
-                -- 附加開發者資訊
-                local dev_info = GetDevInfoText(target)
-                if dev_info ~= "" then
-                    if current_str ~= "" then
-                        current_str = current_str .. dev_info
-                    else
-                        current_str = dev_info:sub(2) -- 去掉第一個 \n
+                if show_custom_info then
+                    if display_mode == "hover" and target.prefab ~= nil then
+                        local origin = prefab_to_modname[target.prefab]
+                        if origin then
+                            if current_str ~= "" then
+                                current_str = current_str .. "\nMOD: " .. origin
+                            else
+                                current_str = "MOD: " .. origin
+                            end
+                        end
+                    end
+
+                    local dev_info = GetDevInfoText(target)
+                    if dev_info ~= "" then
+                        if current_str ~= "" then
+                            current_str = current_str .. dev_info
+                        else
+                            current_str = dev_info:sub(2) -- 去掉第一個 \n
+                        end
                     end
                 end
 

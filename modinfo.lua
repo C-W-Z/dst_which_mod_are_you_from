@@ -18,18 +18,24 @@ local LANGS = {
         description = '模组来源检视器。显示游戏内物品/实体来自哪个模组。',
         config = {
             { modid .. '_mode', '显示模式', '选择模组名称显示的位置', 'name', {
-                { '物品名称', 'name', '直接将模组名称加在物品名称的最后，理論上兼容所有模組' },
+                { '物品名称', 'name', '直接将模组名称加在物品名称的最后，可在T键页面显示' },
                 { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 類模組' },
+            } },
+            { modid .. '_hotkey', '按键显示', '只支援浮动提示模式。按住按键时才显示资讯', false, {
+                { '总是显示', false },
+                { 'Alt', 'KEY_ALT', '按住 Alt 时显示' },
+                { 'Ctrl', 'KEY_CTRL', '按住 Ctrl 时显示' },
+                { 'Shift', 'KEY_SHIFT', '按住 Shift 时显示' },
             } },
             { 'Dev Tools' },
             { modid .. '_force_show', '强制显示资讯', '是否能在不可检视的实体（如玩家自己）上强制显示资讯', false, {
                 { '禁用', false, '' },
                 { '启用', true, '' },
             } },
-            { modid .. '_guid', 'Show GUID', '是否顯示GUID', false, hover_or_disable_zh },
-            { modid .. '_prefab', 'Show Prefab', '是否顯示Prefab名稱', false, hover_or_disable_zh },
-            { modid .. '_sg', 'Show StateGraph', '是否顯示StateGraph資訊', false, hover_or_disable_zh },
-            { modid .. '_as', 'Show AnimState', '是否顯示AnimState資訊', false, hover_or_disable_zh },
+            { modid .. '_guid', 'Show GUID', '是否显示GUID', false, hover_or_disable_zh },
+            { modid .. '_prefab', 'Show Prefab', '是否显示Prefab名称', false, hover_or_disable_zh },
+            { modid .. '_sg', 'Show StateGraph', '是否显示StateGraph资讯', false, hover_or_disable_zh },
+            { modid .. '_as', 'Show AnimState', '是否显示AnimState资讯', false, hover_or_disable_zh },
         }
     },
     ['en'] = {
@@ -37,13 +43,19 @@ local LANGS = {
         description = 'Mod Source Viewer. Displays which mod an in-game item/entity comes from.',
         config = {
             { modid .. '_mode', 'Display Mode', 'Choose where the mod name is displayed', 'name', {
-                { 'Item Name',     'name',  'Appends mod name to item name. Compatible with all mods in theory.' },
+                { 'Item Name',     'name',  'Appends mod name to item name. Can show in T-key menu' },
                 { 'Hover Tooltip', 'hover', 'Displays like "Show Me". Compatible with "Show Me" type mods.' },
+            } },
+            { modid .. '_hotkey', 'Hotkey to Show', 'Only support Hover mode. Hold a key to show info', false, {
+                { 'Always Show', false, },
+                { 'Alt',    'KEY_ALT',   'Hold Alt to show' },
+                { 'Ctrl',   'KEY_CTRL',  'Hold Ctrl to show' },
+                { 'Shift',  'KEY_SHIFT', 'Hold Shift to show' },
             } },
             { 'Dev Tools' },
             { modid .. '_force_show', 'Force Show Tooltip', 'Show info on uninspectable entities (like player yourself)', false, {
                 { 'Disabled', false, '' },
-                { 'Enabled', true, '' },
+                { 'Enabled',  true,  '' },
             } },
             { modid .. '_guid',   'Show GUID',       'Show GUID',            false, hover_or_disable_en },
             { modid .. '_prefab', 'Show Prefab',     'Show Prefab Name',     false, hover_or_disable_en },
@@ -57,7 +69,7 @@ local LANGS = {
 local cur = (locale == 'zh' or locale == 'zhr' or locale == 'zht') and 'zh' or 'en'
 
 -- mod相关信息
-version = '1.1.0'
+version = '1.2.0'
 author = 'Icya'
 forumthread = ''
 api_version = 10
