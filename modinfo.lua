@@ -4,7 +4,7 @@ local modid = 'which_mod_are_you_from'
 
 local hover_or_disable_zh = {
     { '禁用', false },
-    { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 類模組' },
+    { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 类模组' },
 }
 
 local hover_or_disable_en = {
@@ -19,9 +19,9 @@ local LANGS = {
         config = {
             { modid .. '_mode', '显示模式', '选择模组名称显示的位置', 'name', {
                 { '物品名称', 'name', '直接将模组名称加在物品名称的最后，可在T键页面显示' },
-                { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 類模組' },
+                { '浮动提示', 'hover', '与 Show Me 一样的显示方式，兼容 Show Me 类模组' },
             } },
-            { modid .. '_hotkey', '按键显示', '只支援浮动提示模式。按住按键时才显示资讯', false, {
+            { modid .. '_hotkey', '按键显示', '只支援浮动提示模式。按住按键时才显示信息', false, {
                 { '总是显示', false },
                 { 'Alt', 'KEY_ALT', '按住 Alt 时显示' },
                 { 'Ctrl', 'KEY_CTRL', '按住 Ctrl 时显示' },
@@ -32,10 +32,10 @@ local LANGS = {
                 { '禁用', false, '' },
                 { '启用', true, '' },
             } },
-            { modid .. '_guid', 'Show GUID', '是否显示GUID', false, hover_or_disable_zh },
-            { modid .. '_prefab', 'Show Prefab', '是否显示Prefab名称', false, hover_or_disable_zh },
-            { modid .. '_as', 'Show AnimState', '是否显示AnimState资讯', false, hover_or_disable_zh },
-            { modid .. '_sg', 'Show StateGraph', '是否显示StateGraph资讯', false, { { '不支援', false, '' }, } },
+            { modid .. '_guid', 'Show GUID', '是否显示 GUID', false, hover_or_disable_zh },
+            { modid .. '_prefab', 'Show Prefab', '是否显示 Prefab 名称', false, hover_or_disable_zh },
+            { modid .. '_as', 'Show AnimState', '是否显示 AnimState 信息', false, hover_or_disable_zh },
+            { modid .. '_sg', 'Show StateGraph', '是否显示 StateGraph 信息', false, { { '不支援', false, '' }, } },
         }
     },
     ['en'] = {
@@ -69,7 +69,7 @@ local LANGS = {
 local cur = (locale == 'zh' or locale == 'zhr' or locale == 'zht') and 'zh' or 'en'
 
 -- mod相关信息
-version = '1.3.0'
+version = '1.4.0'
 author = 'Icya'
 forumthread = ''
 api_version = 10
