@@ -74,7 +74,8 @@ author = 'Icya'
 forumthread = ''
 api_version = 10
 -- 晚點加載確保 hover 模式時 MOD 名稱顯示在物品名稱下第一行（雖然不明原理因為沒看其他 MOD 怎麼寫的）
-priority = -100000                 -- 加载优先级，越低加载越晚，默认为0
+-- 比 Server 版更晚一點，以偵測 Server 版是否開啟
+priority = -100001                 -- 加载优先级，越低加载越晚，默认为0
 
 dst_compatible = true              -- 联机版适配性
 dont_starve_compatible = false     -- 单机版适配性

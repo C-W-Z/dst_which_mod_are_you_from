@@ -13,6 +13,18 @@ local show_prefab    = GetModConfigData(modid .. "_prefab")
 local show_sg        = GetModConfigData(modid .. "_sg")
 local show_as        = GetModConfigData(modid .. "_as")
 
+local function IsServerVersionActive()
+    if not ModManager or not KnownModIndex then return false end
+
+    for _, modname in ipairs(ModManager:GetEnabledModNames()) do
+        local modinfo = KnownModIndex:GetModInfo(modname)
+        if modinfo and modinfo.name == "[Server] Which Mod Are You From?" then
+            return true
+        end
+    end
+    return false
+end
+
 ---@param inst ent
 ---@return string
 local function GetDevInfoText(inst)
@@ -56,6 +68,8 @@ end
 local prefab_to_modname = {}
 
 AddSimPostInit(function()
+    if IsServerVersionActive() then return end
+
     if not ModManager then return end
 
     for _, modname in ipairs(ModManager:GetEnabledModNames()) do
@@ -92,6 +106,8 @@ local need_hover_hook = (display_mode == "hover") or (show_prefab == "hover") or
 if need_hover_hook then
     ---@param self widget_hoverer
     AddClassPostConstruct("widgets/hoverer", function(self)
+        if IsServerVersionActive() then return end
+
         local old_OnUpdate = self.OnUpdate
         self.OnUpdate = function(s)
             -- 執行原本的 OnUpdate，決定原始字串和顏色，並更新 self.str
