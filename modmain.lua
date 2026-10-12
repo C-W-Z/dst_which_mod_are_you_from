@@ -73,34 +73,59 @@ end
 
 local prefab_to_modname = {}
 
+local function RecordPrefabOrigin(prefab_name, fancy_name)
+    prefab_to_modname[prefab_name] = fancy_name
+
+    if display_mode == "name" then
+        local upper_name = GLOBAL.string.upper(prefab_name)
+        local current_string = GLOBAL.STRINGS.NAMES[upper_name]
+
+        if current_string then
+            local suffix = "\nMOD: " .. fancy_name
+            if not GLOBAL.string.find(current_string, suffix, 1, true) then
+                GLOBAL.STRINGS.NAMES[upper_name] = current_string .. suffix
+            end
+        end
+    end
+end
+
 AddSimPostInit(function()
     if IsServerVersionActive() then return end
 
     if not ModManager then return end
 
+    local modname_to_fancy_name = {}
+
     for _, modname in ipairs(ModManager:GetEnabledModNames()) do
         local mod = ModManager:GetMod(modname)
 
-        if mod and mod.Prefabs then
+        if mod then
             local fancy_name = GetModFancyName(modname) or modname
 
             -- 清除前後的空白與換行符號，以及中間的換行符號
             fancy_name = string.gsub(string.match(fancy_name, "^%s*(.-)%s*$"), "[\r\n]", "") or fancy_name
+            modname_to_fancy_name[modname] = fancy_name
 
-            for prefab_name, _ in pairs(mod.Prefabs) do
-                -- 無論哪種模式，都將快取存起來
-                prefab_to_modname[prefab_name] = fancy_name
+            if mod.Prefabs then
+                for prefab_name, _ in pairs(mod.Prefabs) do
+                    RecordPrefabOrigin(prefab_name, fancy_name)
+                end
+            end
+        end
+    end
 
-                if display_mode == "name" then
-                    local upper_name = string.upper(prefab_name)
-                    local current_string = STRINGS.NAMES[upper_name]
-
-                    if current_string then
-                        local suffix = "\nMOD: " .. fancy_name
-                        if not string.find(current_string, suffix, 1, true) then
-                            STRINGS.NAMES[upper_name] = current_string .. suffix
-                        end
-                    end
+    -- 僅補上標準清單未收錄的 Prefab，不覆蓋既有來源。
+    for prefab_name, prefab in GLOBAL.pairs(GLOBAL.Prefabs) do
+        if prefab_to_modname[prefab_name] == nil
+            and GLOBAL.type(prefab) == "table"
+            and GLOBAL.type(prefab.fn) == "function" then
+            local ok, fn_env = GLOBAL.pcall(GLOBAL.getfenv, prefab.fn)
+            if ok and GLOBAL.type(fn_env) == "table" then
+                -- 不沿 metatable 查找，避免把繼承的 modname 誤認為來源。
+                local modname = GLOBAL.rawget(fn_env, "modname")
+                local fancy_name = GLOBAL.type(modname) == "string" and modname_to_fancy_name[modname]
+                if fancy_name then
+                    RecordPrefabOrigin(prefab_name, fancy_name)
                 end
             end
         end
